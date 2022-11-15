@@ -1,6 +1,148 @@
-# Getting Started with Create React App
+# React Sandbox
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+[Canvas Kit from Workday](https://canvas.workday.com/) was added for some components to work with.
+
+## Stuff to run
+
+### Canvas Kit Upgrade
+
+Let's bump Canvas Kit to the latest version, and see what happens.
+
+```
+npm install -S @workday/canvas-kit-react@8 @workday/canvas-kit-preview-react@8 @workday/canvas-kit-labs-react@8
+```
+
+Do things still run?
+
+Check the upgrade guide:
+
+Install the codemod as a dev dependency:
+
+```
+npm install -D @workday/canvas-kit-codemod
+```
+
+Run the code mod (yarn is easiest):
+
+```
+yarn canvas-kit-codemod v8 src
+```
+
+Checkout what changed.
+
+### Conventions in ESLint
+
+Tree-shaking with slash imports
+
+Time to explore with astexplorer.net!
+
+#### The rule
+
+```
+export const meta = {
+  type: 'problem',
+  hasSuggestions: true,
+  fixable: false,
+};
+
+export function create(context) {
+  return {
+    ImportDeclaration(node) {
+      if(node.source.value === '@workday/canvas-kit-react')
+
+      context.report({
+        node: node.source,
+        message: 'Use a slash import for better tree shaking',
+      });
+    }
+  };
+};
+```
+
+#### Setting it up locally
+
+Add a way to run ESLint directly by adding this to the `scripts` in `package.json`:
+
+```
+"lint": "eslint src"
+```
+
+Make sure it works:
+
+```
+npm run lint
+```
+
+Following the [developer guide](https://eslint.org/docs/latest/developer-guide/working-with-plugins#rules-in-plugins), create a blank rule in `local-eslint-rules/index.js`:
+
+```
+module.exports = {
+  rules: {
+    "use-slash-imports": {
+      create: function (context) {
+        // rule implementation ...
+      },
+    },
+  },
+};
+```
+
+Register it in `devDependencies`:
+
+```
+"eslint-plugin-local-rules": "file:./local-eslint-rules"
+```
+
+Add the rule to the config:
+
+```
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ],
+    "plugins": [
+      "local-rules"
+    ],
+    "rules": {
+      "local-rules/use-slash-imports": 1
+    }
+  },
+```
+
+Does it work?
+
+```
+npm run lint
+```
+
+Oh, we need this!
+
+```
+npm install
+```
+
+Run it again!
+
+```
+npm run lint
+```
+
+OK, now what? Let's [explore](https://astexplorer.net/).
+
+### React Upgrade
+
+Upgrade React to 18.
+
+Reference: https://reactjs.org/blog/2022/03/08/react-18-upgrade-guide.html#installing
+
+That's insufficient! Try this instead:
+
+```
+npm install -S react@18 react-dom@18
+```
 
 ## Available Scripts
 
