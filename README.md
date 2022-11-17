@@ -1,4 +1,10 @@
-# React Sandbox
+# Sandbox: Canvas Kit 7 + React 17
+
+> A little sandbox for testing code mods for upgrades
+
+This README contains some quick notes and references for a meetup talk I prepared for [React Denver](https://github.com/reactdenver).
+
+---
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
